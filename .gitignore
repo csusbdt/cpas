@@ -1,5 +1,5 @@
 a.out
-myenv
+env/
 temp/
 *.swp
 

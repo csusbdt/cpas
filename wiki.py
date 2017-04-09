@@ -2,10 +2,17 @@
 #     (1) Convert INDIR/*.md to HTML and place in OUTDIR.
 #     (2) Copy github-markdown.css to OUTDIR.
 
+import platform
+
+if platform.python_version_tuple()[0] < '3':
+    print("This script requires Python version 3.")
+    exit(1)
+
 import markdown
 import codecs
 from pathlib import Path
 from shutil import copy2 as copyfile
+
 INDIR = "../cpas.wiki/"
 OUTDIR = "temp/"
 
