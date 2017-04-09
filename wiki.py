@@ -1,5 +1,6 @@
-# Convert INDIR/*.md to OUTDIR/*.html and copy 
-# github-markdown stylesheet to OUTDIR.
+# This script does tow things:
+#     (1) Convert INDIR/*.md to HTML and place in OUTDIR.
+#     (2) Copy github-markdown.css to OUTDIR.
 
 import markdown
 import codecs
