@@ -49,10 +49,14 @@ def createPage(filename):
     outtext = header + md.convert(intext) + footer
     outfile.write(outtext)
 
+print("(1) Converting " + INDIR + "*.md to HTML and placing into " + OUTDIR)
+print("(2) Copying github-markdown.css to " + OUTDIR)
+
 wikiPagesDirectory = Path("../cpas.wiki")
 for x in wikiPagesDirectory.iterdir():
     if not x.is_dir():
         createPage(x.stem)
 
 copyfile("github-markdown.css", "temp")
+print("Done.")
 
