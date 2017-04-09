@@ -1,4 +1,4 @@
-# This script does tow things:
+# This script does two things:
 #     (1) Convert INDIR/*.md to HTML and place in OUTDIR.
 #     (2) Copy github-markdown.css to OUTDIR.
 
