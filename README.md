@@ -2,11 +2,11 @@
 
 Course description and instructions are in the [wiki](https://github.com/csusbdt/cpas/wiki).
 
-## Working in a Python Virtual Environment
+## Working in a Python3 Virtual Environment
 
 If you are working on a lab machine or any other machine for which 
 you do not have administrator privileges, then you will need to
-work in a Python virtual environment in order to install modules.
+work in a Python3 virtual environment in order to install modules.
 The instructions given here show how to set this up in OS X and Linux.
 I'm not sure of the procedure needed under Windows.
 
