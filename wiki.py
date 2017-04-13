@@ -33,7 +33,8 @@ header = '''<html>
   </head>
   <body>
     <div class='markdown-body'>
-      <a href="Home.html">home</a> <br>
+      <a href="Home.html">home</a> 
+      <a href="https://github.com/csusbdt/cpas/wiki">wiki</a> <br>
       <h1>CSE 1010</h1>
 '''
 
@@ -66,6 +67,6 @@ for x in wikiPagesDirectory.iterdir():
     if not x.is_dir():
         createPage(x.stem)
 
-copyfile("github-markdown.css", "temp")
+copyfile("github-markdown.css", "docs")
 print("Done.")
 
