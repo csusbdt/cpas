@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <title>website</title>
+    <!-- stylesheet from http://www.bootcdn.cn/github-markdown-css/ -->
+    <link rel="stylesheet" href="github-markdown.css">
+    <style>
+      .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 45px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='markdown-body'>
+      <a href="Home.html">home</a> <br>
+      <h1>CSE 1010</h1>
+<p>This course requires Python3.  This page describes how to install Python 3 on your computer.</p>
+<h2>Windows computers</h2>
+<p>If Python is not already installed on your Windows computer, then see the <a href="https://wiki.python.org/moin/BeginnersGuide/Download">downloads page</a> of the Python Beginner's Guide.</p>
+<p>TODO: Video of installation, showing how to determine which installation package to download.</p>
+<h2>OS X and Linux computers</h2>
+<p>Later version of Mac OS X and many distributions of Linux include Python pre-installed.  However, it's a good idea to check that Python is installed and ready for use.  To do this, open a command line window, also call a <em>terminal window</em>, and enter the command to run the Python command line interpreter as follows.</p>
+<pre><code>python
+</code></pre>
+
+<p>If it leaves you at the Python command line, signified by 3 <em>greater than</em> symbols, then Python is installed.  You can exit the command line interpreter by holding down the control key and pressing the D key.  (This inserts an <em>end of file</em> character into the command line's input stream.)</p>
+<p>If instead you receive a message saying <em>command not found</em>, or something to that effect, then Python is not installed on your system.  See the <a href="https://wiki.python.org/moin/BeginnersGuide/Download">downloads page</a> of the Python Beginner's Guide for installation instructions.</p>
+<ul>
+<li><a href="">Windows demonstration video</a></li>
+<li><a href="">OS X demonstration video</a> </li>
+<li>Linux is similar to OS X.</li>
+</ul>
+<h2>How to install Python3 in Mac OS X to exist alongside pre-installed Python 2</h2>
+<p>The command line tools from Xcode are needed.  If you do not have Xcode, then you should install it from the App Store.</p>
+<p>After installing Xcode, run <code>xcode-select --install</code> in the terminal command line to install the command line tools.</p>
+<p>You need to install Brew.  Enter <code>brew</code> at the command line to see if you have Brew already installed.  If the command isn't found, install it with the following command.</p>
+<pre><code>ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre>
+
+<p>Now, you can run python3 with the following command.</p>
+<pre><code>python3
+</code></pre>
+
+<p>See <a href="https://github.com/csusbdt/cpas/blob/master/README.md">README.md</a> for instructions on how to setup
+and use Python3 in a virtual environment, which you will need to do if you are using the lab machines
+or other machine on which you do not have administrator privileges.</p>
+    </div>
+  </body>
+</htlm>

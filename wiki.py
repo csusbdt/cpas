@@ -14,7 +14,7 @@ from pathlib import Path
 from shutil import copy2 as copyfile
 
 INDIR = "../cpas.wiki/"
-OUTDIR = "temp/"
+OUTDIR = "docs/"
 
 header = '''<html>
   <head>
@@ -33,6 +33,7 @@ header = '''<html>
   </head>
   <body>
     <div class='markdown-body'>
+      <a href="Home.html">home</a> <br>
       <h1>CSE 1010</h1>
 '''
 
@@ -60,7 +61,7 @@ def createPage(filename):
 print("(1) Converting " + INDIR + "*.md to HTML and placing into " + OUTDIR)
 print("(2) Copying github-markdown.css to " + OUTDIR)
 
-wikiPagesDirectory = Path("../cpas.wiki")
+wikiPagesDirectory = Path(INDIR)
 for x in wikiPagesDirectory.iterdir():
     if not x.is_dir():
         createPage(x.stem)
