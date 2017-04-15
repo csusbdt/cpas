@@ -2,4 +2,5 @@ a.out
 env/
 *.swp
 .DS_Store
+3d/*.png
 
