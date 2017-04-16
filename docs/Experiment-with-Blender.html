@@ -18,9 +18,79 @@
       <a href="Home.html">home</a> 
       <a href="https://github.com/csusbdt/cpas/wiki">wiki</a> <br>
       <h1>CSE 1010</h1>
+<h2>Reference</h2>
+<ul>
+<li><a href="https://docs.blender.org/manual/en/dev/">Blender Reference Manual</a></li>
+</ul>
+<h2>Preparation</h2>
 <p><a href="https://docs.blender.org/manual/en/dev/getting_started/installing/index.html">Install Blender</a>.</p>
-<p>Look at <a href="https://docs.blender.org/manual/en/dev/">Blender Reference Manual</a>, which is the top-level starting point of the Blender documentation.</p>
-<p>Read <a href="https://docs.blender.org/manual/en/dev/advanced/command_line/index.html">Blender Command Line</a>.  The following are my notes to myself from this section.</p>
+<p>Read <a href="https://docs.blender.org/manual/en/dev/advanced/command_line/introduction.html">Advanced &gt; Command Line &gt; Introduction</a>
+to learn how to run Blender from the command line.
+On my Mac, I launched Blender from the command line with the following command.</p>
+<pre><code>/Applications/blender.app/Contents/MacOS/blender
+</code></pre>
+
+<p>If you are running under Mac OS X, then you can create an alias to allow easier access to blender from the command line.
+One way to do this is add the following to <em>.bash_profile</em> in your home directory.</p>
+<pre><code>alias blender=/Applications/blender.app/Contents/MacOS/blender
+</code></pre>
+
+<p>Note that the above command I used is different than the example shown in the Blender documentation.  You may need to similarly adjust what you read in the documentation.</p>
+<p>Take careful notice of <a href="https://docs.blender.org/manual/en/dev/advanced/command_line/arguments.html#argument-order">Argument Order</a>
+when running Blender from the command line.</p>
+<h2>Experiment with the command line</h2>
+<p>When you first start Blender, it will show a cube.
+This cube is in a scene with a camera pointed at it.
+When you render the scene, you do it through this camera.
+In this experiment, we will generate an image of the cube
+as seen through the camera.</p>
+<p>Run Blender and observe the grey box.</p>
+<p>Save the current state of Blender as a Blend-file.
+Save it into a convenient location and name the file <em>cube.blend</em>.</p>
+<p>From the command line, run the following to produce the first frame
+of animation (frame 0) as seen through the camera.</p>
+<pre><code>blender -b cube.blend -o //#.png -f 0
+</code></pre>
+
+<p>This command will generate an image file named <em>0.png</em>.
+Verify that this file is an image of the Blender scene you saved.
+The <code>-b</code> in the command specifies that Blender is to run in the background.
+In other words, the command will not open the Blender application Window.</p>
+<p>To better understand Blender's command line operation, read the following.</p>
+<ul>
+<li><a href="https://docs.blender.org/manual/en/dev/advanced/command_line/index.html">Command Line</a></li>
+<li><a href="https://docs.blender.org/manual/en/dev/render/workflows/command_line.html">Docs » Render » Workflows » Command Line</a></li>
+</ul>
+<p>The above command uses the blender render engine; try the following to see the results with the Cycles render engine.</p>
+<pre><code>blender -b box.blend -o //#.png --engine CYCLES -f 0
+</code></pre>
+
+<p>Let's now run a trivial Python script through Blender on the command line.
+For this purpose, create <em>hi.py</em> with a single line of Python code: <code>print('hi')</code>.
+Test that the script runs as expected.</p>
+<pre><code>python hi.py
+</code></pre>
+
+<p>The script should display <em>hi</em>.</p>
+<p>Now have Blender run the script.</p>
+<pre><code>blender -b -P hi.py
+</code></pre>
+
+<p>This command produces the same result: it displays <em>hi</em> (along with some extra information from Blender).</p>
+<p>To prepare yourself for eventual problems, repeat the above experiment with a syntax error.
+For example, you could change <em>hi.py</em> to <code>xprint('hi')</code>.</p>
+<p>Read and do the <a href="https://docs.blender.org/manual/en/dev/editors/python_console.html">Docs » Editors » Python Console</a>
+tutorial.</p>
+<p>In the Blender editor, SHIFT-F4 selects Console view and SHIFT-F5 selects 3D view.</p>
+<h1>TODO:</h1>
+<p>I'm reading <a href="https://docs.blender.org/manual/en/dev/advanced/scripting/index.html">Scripting and Extending Blender</a>
+and thinking about going through a video tutorial.</p>
+<p>Must check out the <a href="https://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts">Blender Add-ons Catalog</a>;
+it contains scripts to add geometry and do other interesting things.</p>
+<p><strong>TODO: RESTART FROM HERE</strong></p>
+<p><strong>New challenge:</strong> write a script that turns on halo rendering for the box.</p>
+<p>Problem: Render text or a simple cube from the command line.
+Use <a href="https://docs.blender.org/manual/en/dev/render/blender_render/materials/special_effects/halo.html">Halo Rendering</a>.</p>
 <p>The following is an example of rendering an animation from the command line.</p>
 <pre><code>blender --background --enable-autoexec myanim.blend --render-anim
 </code></pre>
@@ -48,22 +118,14 @@
 <a href="https://docs.blender.org/manual/en/dev/data_system/files/relative_paths.html">Data System &gt; Relative Paths</a>.</p>
 <p>You cannot enter relative paths into a new untitled blend-file; save it before linking to external files.</p>
 <p>From the <em>Save As</em> function, you have the option to select <em>Remap Relative</em> to relocate a blend-file relative to its linked resources.</p>
-<p><strong>TODO:</strong> Continue from <a href="https://docs.blender.org/manual/en/dev/data_system/files/import_export.html">Importing and Exporting Files</a>.</p>
-<p>The following are notes I took from
-<a href="https://docs.blender.org/manual/en/dev/advanced/command_line/index.html">Advanced &gt; Command Line</a>.</p>
-<p>Read <a href="https://docs.blender.org/manual/en/dev/advanced/command_line/introduction.html">Advanced &gt; Command Line &gt; Introduction</a>
-to learn how to run Blender from the command line.
-On my Mac, I launched Blender from the command line with the following command.</p>
-<pre><code>/Applications/blender.app/Contents/MacOS/blender
-</code></pre>
-
-<p>Note that the above command I used is different than the example shown in the Blender documentation.  You may need to similarly adjust what you read in the documentation.</p>
-<p>Take careful notice of the <a href="https://docs.blender.org/manual/en/dev/advanced/command_line/arguments.html#argument-order">Argument Order</a> section.</p>
-<p>Read <a href="https://docs.blender.org/manual/en/dev/advanced/scripting/index.html">Scripting and Extending Blender</a>.</p>
 <p><em>Optional Assignment:</em> Create an <a href="https://docs.blender.org/manual/en/dev/advanced/app_templates.html">Application Template</a> that is used with your scene generation code.</p>
 <p>Make note of <a href="https://docs.blender.org/manual/en/dev/troubleshooting/python.html">Python Errors</a>.</p>
 <p>Use the <a href="https://docs.blender.org/manual/en/dev/glossary/index.html">Glossary</a> as needed.</p>
-<p><strong>TODO:</strong> Read <a href="https://docs.blender.org/manual/en/dev/modeling/index.html">Modeling</a>.</p>
+<p>Do a cursory reading of <a href="https://docs.blender.org/manual/en/dev/modeling/index.html">Modeling</a>.</p>
+<p>Problem: Create an animation that involves <a href="https://docs.blender.org/manual/en/dev/modeling/texts/index.html">Text</a>.</p>
+<p>Do a cursory reading of <a href="https://docs.blender.org/manual/en/dev/sculpt_paint/index.html">Painting and Sculpting</a>.
+Read the overview paragraph of the <a href="https://docs.blender.org/manual/en/dev/sculpt_paint/sculpting/introduction.html">Introduction to Sculpting</a>.</p>
+<p>Do a cursory reading of Read <a href="https://docs.blender.org/manual/en/dev/render/index.html">Render</a>.</p>
     </div>
   </body>
 </htlm>
