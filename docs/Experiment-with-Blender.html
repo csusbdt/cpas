@@ -20,7 +20,12 @@
       <h1>CSE 1010</h1>
 <h2>Reference</h2>
 <ul>
+<li><a href="https://docs.blender.org/api/blender_python_api_current/">Blender API documentation</a></li>
 <li><a href="https://docs.blender.org/manual/en/dev/">Blender Reference Manual</a></li>
+<li><a href="https://docs.blender.org/manual/en/dev/render/workflows/command_line.html">Blender Command Line</a></li>
+<li><a href="https://docs.blender.org/manual/en/dev/advanced/command_line/arguments.html">Blender Command Line Arguments</a></li>
+<li><a href="https://docs.blender.org/manual/en/dev/editors/python_console.html">Blender Python Console</a></li>
+<li><a href="https://en.wikibooks.org/wiki/Blender_3D:_HotKeys/All">Blender Hot Keys</a></li>
 </ul>
 <h2>Installation</h2>
 <p><a href="https://docs.blender.org/manual/en/dev/getting_started/installing/index.html">Install Blender</a>.</p>
@@ -49,69 +54,17 @@ it's helpful to know a few hot keys.</p>
 <ul>
 <li><a href="https://en.wikibooks.org/wiki/Blender_3D:_HotKeys/All">Blender Hot Keys</a></li>
 </ul>
-<h2>Experiment with the command line</h2>
-<p>When you first start Blender, it will show a cube.
-This cube is in a scene with a camera pointed at it.
-When you render the scene, you do it through this camera.
-In this experiment, we will generate an image of the cube
-as seen through the camera.</p>
-<p>Run Blender and observe the grey cube.</p>
-<p>From the command line, run the following to produce the first frame
-of animation (frame 0) as seen through the camera.</p>
-<pre><code>blender -b -o //#.png -f 0
-</code></pre>
-
-<p>This command will generate an image file named <em>0.png</em> in the current directory.
-The <code>-o</code> argument tells Blender how to name the image file and where to store it.
-The leading <code>//</code> tells Blender that the pathname should be considered relative
-to the current directory.  The single has mark <code>#</code> tells Blender that you want
-to use a single digit from the frame number in the file name.  The <code>.png</code> tells
-Blender what to append onto the frame number when forming the name.
-The result is a file named <em>0.png</em> because we specified frame number 0 with the argument <code>-f 0</code>.</p>
-<p>After running the command, verify that this file is an image of the default cube that Blender creates
-when it is started without a Blend-file.</p>
-<p>The <code>-b</code> in the command specifies that Blender is to run in the background.
-In other words, the command will not open the Blender application Window.</p>
-<p>To better understand Blender's command line operation, read the following.</p>
-<ul>
-<li><a href="https://docs.blender.org/manual/en/dev/advanced/command_line/index.html">Command Line</a></li>
-<li><a href="https://docs.blender.org/manual/en/dev/render/workflows/command_line.html">Docs » Render » Workflows » Command Line</a></li>
-</ul>
-<p>The above command uses the blender render engine; try the following to see the results with the Cycles render engine.</p>
-<pre><code>blender -b -o //#.png --engine CYCLES -f 0
-</code></pre>
-
-<p>Note that the argument order on the Blender command line is significant.
-Try to run the above commands with the arguments in a different order and observe the result.
-For example, the following command saves the image file in a temporary directory that is not under
-the current directory because the <code>-o //#.png</code> argument comes after the argument specifying the
-frame number <code>-f 0</code>.</p>
-<pre><code>blender -b -f 0 -o //#.png
-</code></pre>
-
-<p>Let's now accomplish the same result using a Python script.
-For this purpose, create <em>cube.py</em> with the following lines of code.</p>
-<pre><code>import bpy
-bpy.data.scenes['Scene'].render.filepath = 'cube.png'
-bpy.ops.render.render(write_still=True)
-</code></pre>
-
-<p>Run the script as follows.</p>
-<pre><code>blender -b -P cube.py
-</code></pre>
-
-<p>Verify that this command produced an image file _cube.png_in the current directory
-that shows the scene as viewed through the scene camera.</p>
-<p>To prepare yourself for eventual problems, repeat the above experiment with a syntax error in the code.
-Notice how the error is reported to you.
-You will have errors in your code in the future
-so doing this experiment will show you how these types of errors are reported.</p>
-<h2>Experiment with Blender's Python console</h2>
-<p>In addition to running Python scripts from the command line,
-you can also execute Python code inside Blender's Python Console.
-Read and do the <a href="https://docs.blender.org/manual/en/dev/editors/python_console.html">Docs » Editors » Python Console</a>
-tutorial to learn more about this.</p>
-<p>While inside the Blender application window, I found the following hot keys useful when running experiments.</p>
+<h2>Experiment with the Blender User Interface</h2>
+<p>Start Blender and look around.
+Read pieces of the Blender documentation.
+We won't need to know much about how to use Blender through its user interface
+because we will use Blender primarily through its application programming interface (API).
+We will focus on using the Blender API to generate 3D visualizations.
+We will access the functionality of the API by submitting Python scripts to an instance of Blender
+primarily running as a background process, that is, without an application window.</p>
+<p>When you start Blender, you see a scene that contains a cube, camera and light source.
+We will use this as our starting point for a series of experiments.</p>
+<p>In these experiments, the following hot key sequences will be useful.</p>
 <table>
 <thead>
 <tr>
@@ -134,17 +87,30 @@ tutorial to learn more about this.</p>
 </tr>
 </tbody>
 </table>
-<p>Inside Blender, press F12 to render the current view.</p>
-<p>Now, run the following code from the Python console to move the cube
-by 3 units in the positive X direction and then render again.
-Enter the following 2 lines in Blender's Python console.</p>
-<pre><code>cube = bpy.data.objects['Cube']
-cube.location.x = 3
+<p>Inside Blender, press F12 to render the current view.
+Press ESCAPE to exit the render view.</p>
+<p>Continue to experiment as follows.
+Have your mouse anywhere inside the large view pane and then
+press SHIFT-F4 to change the view to the Python console.
+Press SHIFT-F5 to change back to the 3D view.</p>
+<p>Run the following code from the Python console to move the cube
+by 3 units in the positive X direction.</p>
+<pre><code>bpy.data.objects['Cube'].location.x = 3
 </code></pre>
 
-<p>Press F12 to render again and observe that the cube has been moved.</p>
+<p>Notice how the cube has been moved.
+Press F12 to render the camera view again and notice again that the cube has been moved.</p>
+<h2>Blend-files</h2>
+<p>A Blend-file is a Blender data file that stores a collection of scenes
+and possibly other objects.
+When you start Blender, a default Blend-file is automatically loaded.
+However, it doesn't yet refer to a saved file.
+You can think of it as Blender's current state.
+You won't need to work with saved Blend-files at this point,
+but if you ever do, the state of Blender can be saved to and read from a Blend-file.</p>
+<h2>Experiment with the command line</h2>
 <p>Now let's see if we can move the cube from the command line.
-Change <em>cube.py</em> to the following and then run the script from the command line as follows.</p>
+Create file <em>cube.py</em> with the following contents.</p>
 <pre><code>import bpy
 
 cube = bpy.data.objects['Cube']
@@ -154,11 +120,20 @@ bpy.data.scenes['Scene'].render.filepath = 'cube.png'
 bpy.ops.render.render(write_still=True)
 </code></pre>
 
-<p>I found <a href="https://docs.blender.org/api/blender_python_api_2_59_2/info_tips_and_tricks.html">Tips and Tricks</a>
-useful to learn more about how to run scripts.
-One trick that I learned, which I believe will be useful,
-is how to pause a script to let the user execute Python code.
-Here is an example.</p>
+<p>Try to analyze the code to see what it is doing.
+Observe its effects when run from the command line as follows.</p>
+<pre><code>blender -b -P cube.py
+</code></pre>
+
+<p>This will generate an image file <em>cube.png</em> that shows the scene as rendered through the camera,
+which is a grey box moved from its original location.</p>
+<h2>Trouble-shooting code</h2>
+<p>When a script malfunctions, we need a way to inspect the code at different points of execution.
+If we were running code in an integrated development environment (IDE) such as Visual Studio and XCode,
+we would most likely be able to set break points in the code to pause the program and inspect the state of variables.</p>
+<p>Similar to setting break points, we can enter into interactive mode at any point in our code.</p>
+<p>I found this approach described in <a href="https://docs.blender.org/api/blender_python_api_2_59_2/info_tips_and_tricks.html">Tips and Tricks</a>.
+Here is an example of how to pause a script to let the user execute Python code.</p>
 <pre><code>import bpy
 cube = bpy.data.objects['Cube']
 cube.location.x = 3
@@ -179,6 +154,84 @@ and set the z coordinate to 2 (moves the cube up).
 Press Ctrl-D to end interactive mode.
 Verify that the image shows the cube in the new location.</p>
 <!--
+
+__HERE__
+
+
+## Experiment with the command line
+
+When you first start Blender, it will show a cube.
+This cube is in a scene with a camera pointed at it.
+When you render the scene, you do it through this camera.
+In this experiment, we will generate an image of the cube
+as seen through the camera.
+
+Run Blender and observe the grey cube.
+
+From the command line, run the following to produce the first frame
+of animation (frame 0) as seen through the camera.
+
+
+wzxhzdk:6
+
+
+This command will generate an image file named _0.png_ in the current directory.
+The `-o` argument tells Blender how to name the image file and where to store it.
+The leading `//` tells Blender that the pathname should be considered relative
+to the current directory.  The single has mark `#` tells Blender that you want
+to use a single digit from the frame number in the file name.  The `.png` tells
+Blender what to append onto the frame number when forming the name.
+The result is a file named _0.png_ because we specified frame number 0 with the argument `-f 0`.
+
+After running the command, verify that this file is an image of the default cube that Blender creates
+when it is started without a Blend-file.
+
+The `-b` in the command specifies that Blender is to run in the background.
+In other words, the command will not open the Blender application Window.
+
+To better understand Blender's command line operation, read the following.
+
+* [Command Line](https://docs.blender.org/manual/en/dev/advanced/command_line/index.html)
+* [Docs » Render » Workflows » Command Line](https://docs.blender.org/manual/en/dev/render/workflows/command_line.html)
+
+The above command uses the blender render engine; try the following to see the results with the Cycles render engine.
+
+
+wzxhzdk:7
+
+
+Note that the argument order on the Blender command line is significant.
+Try to run the above commands with the arguments in a different order and observe the result.
+For example, the following command saves the image file in a temporary directory that is not under
+the current directory because the `-o //#.png` argument comes after the argument specifying the
+frame number `-f 0`.
+
+
+wzxhzdk:8
+
+
+Let's now accomplish the same result using a Python script.
+For this purpose, create _cube.py_ with the following lines of code.
+
+
+wzxhzdk:9
+
+
+Run the script as follows.
+
+
+wzxhzdk:10
+
+
+Verify that this command produced an image file _cube.png_in the current directory
+that shows the scene as viewed through the scene camera.
+
+To prepare yourself for eventual problems, repeat the above experiment with a syntax error in the code.
+Notice how the error is reported to you.
+You will have errors in your code in the future
+so doing this experiment will show you how these types of errors are reported.
+
+
 
 # TODO:
 
@@ -208,7 +261,7 @@ Use [Halo Rendering](https://docs.blender.org/manual/en/dev/render/blender_rende
 The following is an example of rendering an animation from the command line.
 
 
-wzxhzdk:10
+wzxhzdk:11
 
 
 The _--enable-autoexec_ option will run initialization scripts in myanim.blend.
