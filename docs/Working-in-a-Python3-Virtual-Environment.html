@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>website</title>
+    <!-- stylesheet from http://www.bootcdn.cn/github-markdown-css/ -->
+    <link rel="stylesheet" href="github-markdown.css">
+    <style>
+      .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 45px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='markdown-body'>
+      <a href="Home.html">home</a> 
+      <a href="https://github.com/csusbdt/cpas/wiki">wiki</a> <br>
+      <h1>CSE 1010</h1>
+<p>If you are working on a lab machine or any other machine for which 
+you do not have administrator privileges, then you will need to
+work in a Python3 virtual environment in order to install modules.
+The instructions given here show how to set this up in OS X and Linux.
+I'm not sure of the procedure needed under Windows.</p>
+<p>To create and work in a Python3 virtual environment,
+see <a href="https://docs.python.org/3/library/venv.html">28.3. venv — Creation of virtual environments</a>.
+Here are my notes.</p>
+<p>Run the following in a directory where you have write permissions.</p>
+<pre><code>python3 -m venv env
+</code></pre>
+
+<p>This creates a folder named <em>env</em> in the current directory and copies
+into it the binaries and configuration files for a Python virtual environment.</p>
+<p>To work in the environment, activate the environment as follows.</p>
+<pre><code>source env/bin/activate
+</code></pre>
+
+<p>After activation, Python modules will be installed into <em>env</em>.
+Specifically, the following commands will store the Python-Markdown module
+under <em>env/lib/python3.6/site-packages</em>.</p>
+<pre><code>git clone git@github.com:csusbdt/Python-Markdown.git
+cd Python-Markdown
+python setup.py install
+</code></pre>
+
+<p>Note that the command <code>python</code> will run Python3 after activation.</p>
+    </div>
+  </body>
+</htlm>

@@ -54,7 +54,7 @@ it's helpful to know a few hot keys.</p>
 <ul>
 <li><a href="https://en.wikibooks.org/wiki/Blender_3D:_HotKeys/All">Blender Hot Keys</a></li>
 </ul>
-<h2>Experiment with the Blender User Interface</h2>
+<h2>Experiment with the Blender user interface</h2>
 <p>Start Blender and look around.
 Read pieces of the Blender documentation.
 We won't need to know much about how to use Blender through its user interface
@@ -82,6 +82,10 @@ We will use this as our starting point for a series of experiments.</p>
 <td>select 3D view</td>
 </tr>
 <tr>
+<td>SHIFT-F9</td>
+<td>select Outliner view</td>
+</tr>
+<tr>
 <td>F12</td>
 <td>render (what the camera sees)</td>
 </tr>
@@ -93,6 +97,14 @@ Press ESCAPE to exit the render view.</p>
 Have your mouse anywhere inside the large view pane and then
 press SHIFT-F4 to change the view to the Python console.
 Press SHIFT-F5 to change back to the 3D view.</p>
+<p>Press SHIFT-F9 to go into the Outliner view.
+(Make sure the mouse pointer is inside of the panel you want the Outliner
+view to appear in.)
+Experiment by selecting other objects in the scene, such as the camera or the lamp.
+After selecting a different object, press SHIFT-F5 to go to 3D view.
+Observe how the selection has changed.
+The Outliner view provides a hierarchical view of the contents of the current scene.</p>
+<h2>Experiment with Blender's Python console</h2>
 <p>Run the following code from the Python console to move the cube
 by 3 units in the positive X direction.</p>
 <pre><code>bpy.data.objects['Cube'].location.x = 3
@@ -100,6 +112,17 @@ by 3 units in the positive X direction.</p>
 
 <p>Notice how the cube has been moved.
 Press F12 to render the camera view again and notice again that the cube has been moved.</p>
+<p>Now do the following experiment to understand how object locations can be viewed and changed
+from the Blender's user interface.
+Make sure that the cube is the currently selected object (the <em>active object</em>).
+Switch to 3D view and look at the tabbed panels to the left of the area.
+Make sure the Tools tab is selected.
+Under Transform, click on the Translate button.
+Observe the X, Y and Z values that are displayed for the object translation.
+Experiment with changing these values.</p>
+<p><strong>TODO:</strong></p>
+<p>To become familiar with other operations you can perform in code,
+see <a href="https://docs.blender.org/api/blender_python_api_current/bpy.ops.html">Operators (bpy.ops)</a>.</p>
 <h2>Blend-files</h2>
 <p>A Blend-file is a Blender data file that stores a collection of scenes
 and possibly other objects.
@@ -108,6 +131,17 @@ However, it doesn't yet refer to a saved file.
 You can think of it as Blender's current state.
 You won't need to work with saved Blend-files at this point,
 but if you ever do, the state of Blender can be saved to and read from a Blend-file.</p>
+<p>But there is a concern I read about in
+<a href="https://docs.blender.org/manual/en/dev/data_system/files/relative_paths.html">Data System &gt; Relative Paths</a>
+that may force us to use Blend-files:
+<em>You cannot enter relative paths into a new untitled blend-file; save it before linking to external files.</em>
+My concern is that if we use relative paths in our code to refer to linked resources (images, models, etc.),
+then we need to save the Blender's state as a Blend-file.
+I'm guessing that this sets a current location internally.
+It's possible to set this current location using Python;
+I need to do more research on this.</p>
+<p>One result is that when you relocate the Blend-file, you need to use the <em>Save As</em> function to store the file
+in the new location.  When you do this, select <em>Remap Relative</em> to relocate a blend-file relative to its linked resources.</p>
 <h2>Experiment with the command line</h2>
 <p>Now let's see if we can move the cube from the command line.
 Create file <em>cube.py</em> with the following contents.</p>
@@ -126,12 +160,21 @@ Observe its effects when run from the command line as follows.</p>
 </code></pre>
 
 <p>This will generate an image file <em>cube.png</em> that shows the scene as rendered through the camera,
-which is a grey box moved from its original location.</p>
+which is a grey box moved from its original location.
+This is the view you saw inside Blender when pressing F12.</p>
+<p>To prepare yourself for eventual problems, repeat the above experiment 
+with a syntax error in the code.
+For example, change <code>import bpy</code> to <code>import xbpy</code> and then try to run the code.
+Notice how the error is reported to you.
+You will have errors in your code in the future
+so doing this experiment will show you how these types of errors are reported.</p>
 <h2>Trouble-shooting code</h2>
-<p>When a script malfunctions, we need a way to inspect the code at different points of execution.
+<p>When a script has errors, we need a way to inspect the code within it at different points of execution.
 If we were running code in an integrated development environment (IDE) such as Visual Studio and XCode,
-we would most likely be able to set break points in the code to pause the program and inspect the state of variables.</p>
-<p>Similar to setting break points, we can enter into interactive mode at any point in our code.</p>
+we would be able to set break points to pause program execution.
+When execution is paused, we can inspect the state of variables or even change their values
+before resuming execution.</p>
+<p>Similar to setting break points in an IDE, we can enter into interactive mode at any point in our code.</p>
 <p>I found this approach described in <a href="https://docs.blender.org/api/blender_python_api_2_59_2/info_tips_and_tricks.html">Tips and Tricks</a>.
 Here is an example of how to pause a script to let the user execute Python code.</p>
 <pre><code>import bpy
@@ -153,168 +196,36 @@ bpy.ops.render.render(write_still=True)
 and set the z coordinate to 2 (moves the cube up).
 Press Ctrl-D to end interactive mode.
 Verify that the image shows the cube in the new location.</p>
-<!--
-
-__HERE__
-
-
-## Experiment with the command line
-
-When you first start Blender, it will show a cube.
-This cube is in a scene with a camera pointed at it.
-When you render the scene, you do it through this camera.
-In this experiment, we will generate an image of the cube
-as seen through the camera.
-
-Run Blender and observe the grey cube.
-
-From the command line, run the following to produce the first frame
-of animation (frame 0) as seen through the camera.
-
-
-wzxhzdk:6
-
-
-This command will generate an image file named _0.png_ in the current directory.
-The `-o` argument tells Blender how to name the image file and where to store it.
-The leading `//` tells Blender that the pathname should be considered relative
-to the current directory.  The single has mark `#` tells Blender that you want
-to use a single digit from the frame number in the file name.  The `.png` tells
-Blender what to append onto the frame number when forming the name.
-The result is a file named _0.png_ because we specified frame number 0 with the argument `-f 0`.
-
-After running the command, verify that this file is an image of the default cube that Blender creates
-when it is started without a Blend-file.
-
-The `-b` in the command specifies that Blender is to run in the background.
-In other words, the command will not open the Blender application Window.
-
-To better understand Blender's command line operation, read the following.
-
-* [Command Line](https://docs.blender.org/manual/en/dev/advanced/command_line/index.html)
-* [Docs » Render » Workflows » Command Line](https://docs.blender.org/manual/en/dev/render/workflows/command_line.html)
-
-The above command uses the blender render engine; try the following to see the results with the Cycles render engine.
-
-
-wzxhzdk:7
-
-
-Note that the argument order on the Blender command line is significant.
-Try to run the above commands with the arguments in a different order and observe the result.
-For example, the following command saves the image file in a temporary directory that is not under
-the current directory because the `-o //#.png` argument comes after the argument specifying the
-frame number `-f 0`.
-
-
-wzxhzdk:8
-
-
-Let's now accomplish the same result using a Python script.
-For this purpose, create _cube.py_ with the following lines of code.
-
-
-wzxhzdk:9
-
-
-Run the script as follows.
-
-
-wzxhzdk:10
-
-
-Verify that this command produced an image file _cube.png_in the current directory
-that shows the scene as viewed through the scene camera.
-
-To prepare yourself for eventual problems, repeat the above experiment with a syntax error in the code.
-Notice how the error is reported to you.
-You will have errors in your code in the future
-so doing this experiment will show you how these types of errors are reported.
-
-
-
-# TODO:
-
-I'm reading [Scripting and Extending Blender](https://docs.blender.org/manual/en/dev/advanced/scripting/index.html)
-and thinking about going through a video tutorial.
-
-Must check out the [Blender Add-ons Catalog](https://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts);
-it contains scripts to add geometry and do other interesting things.
-
-
-
-__TODO: RESTART FROM HERE__
-
-
-
-
-
-
-
-__New challenge:__ write a script that turns on halo rendering for the box.
-
-
-Problem: Render text or a simple cube from the command line.
-Use [Halo Rendering](https://docs.blender.org/manual/en/dev/render/blender_render/materials/special_effects/halo.html).
-
-
-The following is an example of rendering an animation from the command line.
-
-
-wzxhzdk:11
-
-
-The _--enable-autoexec_ option will run initialization scripts in myanim.blend.
-
-
-
-
-
-The next thing I read was [Data System](https://docs.blender.org/manual/en/dev/data_system/index.html).
-
-The following are notes I took from 
-[Data System > Introduction](https://docs.blender.org/manual/en/dev/data_system/introduction.html).
-
-* The Blender UI includes an Outliner editor that lets you view the hierarchical structure of the blend-file.
-* Various data such as images can be _packed_ in a blend-file.
-* Most data in a blend-file is in a _data-block_ although some data is not, such as bones, sequence strips and vertex groups.
-* Use custom properties to store arbitrary data in data-blocks, bones, sequence strips.
-
-The following are notes I took from
-[Data System > Scenes](https://docs.blender.org/manual/en/dev/data_system/scenes/index.html)
-
-The scene properties that may be relevant to our problem include the following.
-
-* camera - currently selected camera
-* background - true if the scene will be used as a background to another scene
-* active clip - not sure what this is
-
-The following are notes I took from
-[Data System > Relative Paths](https://docs.blender.org/manual/en/dev/data_system/files/relative_paths.html).
-
-You cannot enter relative paths into a new untitled blend-file; save it before linking to external files.
-
-From the _Save As_ function, you have the option to select _Remap Relative_ to relocate a blend-file relative to its linked resources.
-
-
-
-
-_Optional Assignment:_ Create an [Application Template](https://docs.blender.org/manual/en/dev/advanced/app_templates.html) that is used with your scene generation code.
-
-Make note of [Python Errors](https://docs.blender.org/manual/en/dev/troubleshooting/python.html).
-
-Use the [Glossary](https://docs.blender.org/manual/en/dev/glossary/index.html) as needed.
-
-Do a cursory reading of [Modeling](https://docs.blender.org/manual/en/dev/modeling/index.html).
-
-Problem: Create an animation that involves [Text](https://docs.blender.org/manual/en/dev/modeling/texts/index.html).
-
-Do a cursory reading of [Painting and Sculpting](https://docs.blender.org/manual/en/dev/sculpt_paint/index.html).
-Read the overview paragraph of the [Introduction to Sculpting](https://docs.blender.org/manual/en/dev/sculpt_paint/sculpting/introduction.html).
-
-Do a cursory reading of Read [Render](https://docs.blender.org/manual/en/dev/render/index.html).
-
--->
+<p><em>Optional setup:</em></p>
+<p>It's possible to go further in this direction by
+<a href="https://wiki.blender.org/index.php/User:Ideasman42/BlenderAsPyModule">building Python as a module</a>.
+Doing this will allow you to run your code inside of an IDE that allows break points,
+code completion, etc.
+If I were to try to set this up, I would do a <em>local install</em> of Python 3.5 to separate it from
+the non-local installation of Python, which has a different version.
+Then, I would access this version of Python through the virtual environment mechanism.
+See <a class="wikilink" href="Working-in-a-Python3-Virtual-Environment.html">Working in a Python3 Virtual Environment</a> to set this up.</p>
+<p>However, building Blender as a Python module is not covered in the course.
+This is an optional activity.</p>
+<hr />
+<p><strong>TODO: RESTART FROM HERE</strong></p>
+<p>The page <a href="https://docs.blender.org/manual/en/dev/advanced/scripting/index.html">Scripting and Extending Blender</a>
+contains links to video tutorials on scripting Blender.</p>
+<p>Must check out the <a href="https://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts">Blender Add-ons Catalog</a>;
+it contains scripts to add geometry and do other interesting things.</p>
+<p>Problem: Render text or a simple cube from the command line.
+Use <a href="https://docs.blender.org/manual/en/dev/render/blender_render/materials/special_effects/halo.html">Halo Rendering</a>.</p>
+<p><em>Optional Assignment:</em> Create an <a href="https://docs.blender.org/manual/en/dev/advanced/app_templates.html">Application Template</a> that is used with your scene generation code.</p>
+<p>Problem: Create an animation that involves <a href="https://docs.blender.org/manual/en/dev/modeling/texts/index.html">Text</a>.</p>
+<p>Make note of <a href="https://docs.blender.org/manual/en/dev/troubleshooting/python.html">Python Errors</a>.</p>
+<p>The following are notes I took from 
+<a href="https://docs.blender.org/manual/en/dev/data_system/introduction.html">Data System &gt; Introduction</a>.</p>
+<ul>
+<li>The Blender UI includes an Outliner editor that lets you view the hierarchical structure of the blend-file.</li>
+<li>Various data such as images can be <em>packed</em> in a blend-file.</li>
+<li>Most data in a blend-file is in a <em>data-block</em> although some data is not, such as bones, sequence strips and vertex groups.</li>
+</ul>
+<p>see https://caretdashcaret.com/2014/09/30/how-to-select-an-object-in-blender-using-the-api/</p>
     </div>
   </body>
 </htlm>
