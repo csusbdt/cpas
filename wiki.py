@@ -18,7 +18,7 @@ OUTDIR = "docs/"
 
 header = '''<html>
   <head>
-    <title>website</title>
+    <title>CSE 1010</title>
     <!-- stylesheet from http://www.bootcdn.cn/github-markdown-css/ -->
     <link rel="stylesheet" href="github-markdown.css">
     <style>
@@ -33,7 +33,7 @@ header = '''<html>
   </head>
   <body>
     <div class='markdown-body'>
-      <a href="Home.html">home</a> 
+      <a href="Home.html">home</a> &centerdot; 
       <a href="https://github.com/csusbdt/cpas/wiki">wiki</a> <br>
       <h1>CSE 1010</h1>
 '''
