@@ -1,4 +1,4 @@
-rm -f anim1.mp4
+rm -f anim.mp4
 rm -f temp/*.png 
 
 export PYTHONPATH=.:$PYTHONPATH

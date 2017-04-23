@@ -1,5 +1,4 @@
 import bpy
-import subprocess
 import helper
 
 helper.setup()
