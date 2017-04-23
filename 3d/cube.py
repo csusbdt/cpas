@@ -1,14 +1,16 @@
 import bpy
+
+# Get a reference to the cube.
 cube = bpy.data.objects['Cube']
-cube.location.x = 3
 
-import code
-namespace = globals().copy()
-namespace.update(locals())
+# Move the cube 3 units in the positve X direction.
+cube.location.x = -2
 
-# let use enter Python commands; enter Ctrl-D to terminate.
-code.interact(local=namespace)  
+# Render an image from the scene camera.
 
-bpy.data.scenes['Scene'].render.filepath = 'cube.png'
+# Set the output file pathname.
+bpy.data.scenes['Scene'].render.filepath = './cube.png'
+
+# Output the image.
 bpy.ops.render.render(write_still=True)
 
