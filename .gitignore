@@ -3,4 +3,6 @@ env/
 *.swp
 .DS_Store
 3d/*.png
+__pycache__
+*.mp4
 
