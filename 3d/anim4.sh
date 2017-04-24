@@ -8,6 +8,6 @@ export PYTHONPATH=.:$PYTHONPATH
 if [ $? -eq "0" ]; then 
     open anim.mp4
 else
-    exit 1; fi
+    exit 1
 fi
 
