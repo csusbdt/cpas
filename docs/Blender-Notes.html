@@ -1,0 +1,235 @@
+<html>
+  <head>
+    <title>CSE 1010</title>
+
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <!--link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css" -->
+      <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-indigo.min.css" />
+      <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+    <!-- stylesheet from http://www.bootcdn.cn/github-markdown-css/ -->
+    <link rel="stylesheet" href="github-markdown.css">
+    <style>
+      .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 850px; /* 980px; */
+        margin: 0 auto;
+        padding: 45px;
+      }
+      .menu {
+        padding-bottom: .3em;
+        border-bottom: 1px solid #eaecef;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='markdown-body'>
+      <div class="menu">
+        <span>CSE 1010</span> &bull;
+        <a href="Home.html">Home</a> &#9702; 
+        <a href="https://github.com/csusbdt/cpas/wiki">Wiki</a> <br>
+      </div>
+      <div>
+
+<!--
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+  Button
+</button>
+-->
+    
+      </div>
+<h2>Reference</h2>
+<ul>
+<li><a href="https://docs.blender.org/api/blender_python_api_current/">Blender API documentation</a></li>
+<li><a href="https://docs.blender.org/api/blender_python_api_current/bpy.ops.html">Operators - bpy.ops</a></li>
+<li><a href="https://docs.blender.org/manual/en/dev/">Blender Reference Manual</a></li>
+<li><s><a href="https://docs.blender.org/manual/en/dev/render/workflows/command_line.html">Blender Command Line</a></s></li>
+<li><s><a href="https://docs.blender.org/manual/en/dev/advanced/command_line/arguments.html">Blender Command Line Arguments</a></s></li>
+<li><a href="https://docs.blender.org/manual/en/dev/editors/python_console.html">Blender Python Console</a></li>
+<li><a href="https://en.wikibooks.org/wiki/Blender_3D:_HotKeys/All">Blender Hot Keys</a></li>
+<li><a href="https://docs.blender.org/api/blender_python_api_2_59_2/info_tips_and_tricks.html">Tips and Tricks</a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>hot key</th>
+<th>action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SHIFT-F4</td>
+<td>select Console view</td>
+</tr>
+<tr>
+<td>SHIFT-F5</td>
+<td>select 3D view</td>
+</tr>
+<tr>
+<td>SHIFT-F9</td>
+<td>select Outliner view</td>
+</tr>
+<tr>
+<td>SHIFT-F11</td>
+<td>select Text view</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>render (what the camera sees)</td>
+</tr>
+<tr>
+<td>Alt-P</td>
+<td>render animation</td>
+</tr>
+</tbody>
+</table>
+<h2>Blend-files</h2>
+<p>There is a concern I read about in
+<a href="https://docs.blender.org/manual/en/dev/data_system/files/relative_paths.html">Data System &gt; Relative Paths</a>
+that may force us to use Blend-files:</p>
+<blockquote>
+<p>You cannot enter relative paths into a new untitled blend-file; save it before linking to external files.</p>
+</blockquote>
+<p>My concern is that if we use relative paths in our code to refer to linked resources (images, models, etc.),
+then we need to save the Blender's state as a Blend-file.
+I'm guessing that this sets a current location internally.
+It's possible to set this current location using Python;
+I need to do more research on this.</p>
+<p>One result is that when you relocate the Blend-file, you need to use the <em>Save As</em> function to store the file
+in the new location.  When you do this, select <em>Remap Relative</em> to relocate a blend-file relative to its linked resources.</p>
+<h2>Running scripts</h2>
+<p>To run an external file from the Blender Python console:</p>
+<pre><code>filename = &quot;/full/path/to/myscript.py&quot;
+exec(compile(open(filename).read(), filename, 'exec'))
+</code></pre>
+
+<p>This was taken from <a href="https://docs.blender.org/api/blender_python_api_2_59_2/info_tips_and_tricks.html">Tips and Tricks</a>.</p>
+<h2>Rendering video, key frame approach</h2>
+<p>I developed the following script to show one way to generate animation by setting key frames.
+The script depends on a help module that I also wrote and which follows this code.</p>
+<p><em>anim1.py:</em></p>
+<pre><code>import bpy
+import helper
+
+helper.setup()
+
+# Create scene.
+cube = bpy.data.objects['Cube']
+
+# Make the animation 3 seconds.
+scene = bpy.context.scene
+scene.render.fps = 30
+scene.frame_start = 1
+scene.frame_end = 90
+
+# Create first key frame.
+cube.location = [-3, 0, 0]
+cube.keyframe_insert(data_path=&quot;location&quot;, frame=1)
+cube.location = [3, 0, 0]
+cube.keyframe_insert(data_path=&quot;location&quot;, frame=90)
+
+helper.render()
+</code></pre>
+
+<p>Here is the helper module.</p>
+<p><em>helper.py:</em></p>
+<pre><code>import bpy
+import subprocess
+
+scene = bpy.context.scene
+
+def setup():
+        subprocess.run([&quot;rm -f temp/*&quot;], shell=True, check=True)
+
+def render():
+    scene.render.filepath = '//temp/'
+    bpy.ops.render.render(animation=True)
+    cmd = &quot;&quot;&quot;
+        ffmpeg  -f image2           \
+                -pattern_type glob  \
+                -framerate 30       \
+                -i 'temp/*.png'     \
+                -s 720x480          \
+                -y                  \
+                -pix_fmt yuv420p    \
+                anim.mp4
+    &quot;&quot;&quot;
+    subprocess.run([cmd], shell=True, check=True)
+</code></pre>
+
+<p>The argument <code>-pix_fmt yuv420p</code> is needed to produce video playable in OS X.
+See the answer to <a href="https://apple.stackexchange.com/questions/166553/why-wont-video-from-ffmpeg-show-in-quicktime-imovie-or-quick-preview">this question</a>.</p>
+<p>I created the following script to run <em>anim1.py</em>,
+use <em>ffmpeg</em> to convert the separate images to video,
+and on success open the video for viewing.</p>
+<p><em>anim1.sh:</em></p>
+<pre><code>rm -f anim.mp4
+rm -f temp/*.png
+
+export PYTHONPATH=.:$PYTHONPATH
+
+/Applications/blender.app/Contents/MacOS/blender -b --python-exit-code 1 -P anim1.py
+
+if [ $? -eq &quot;0&quot; ]; then
+    open anim.mp4
+fi
+</code></pre>
+
+<h2>Rendering video, callback approach</h2>
+<p>As an alternative to creating keyframes,
+I wrote the following to achieve the same result by
+registering an animation frame event handler to be called
+prior to the creation of each frame of animation.
+The handler moves the cube a small amount for each frame.
+I developed this code from
+<a href="http://blenderscripting.blogspot.com/2012/09/python-driven-animaion.html">Python Driven Animation</a>,
+which explains how to register a <em>frame_change</em> event handler to move objects prior to the rendering of each frame.</p>
+<pre><code>import bpy
+import helper
+
+helper.setup()
+
+cube = bpy.data.objects['Cube']
+cube.location.x = -3
+
+scene = bpy.data.scenes['Scene']
+
+# Make the animation 3 seconds in duration.
+scene.frame_end = scene.render.fps * 3
+
+def my_handler(scene):
+    # Move cube one unit in the positive X direction per second.
+    cube.location.x = cube.location.x + 1 / scene.render.fps
+
+bpy.app.handlers.frame_change_pre.append(my_handler)
+
+helper.render()
+</code></pre>
+
+<h2>Video lectures on Python Blender</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=KNa5kJd2Epo">Intro to Python Scripting in Blender - Boston Meetup Workshop</a></li>
+</ul>
+<h2>Operators</h2>
+<p>Note: operators return <a href="https://docs.python.org/2/library/sets.html">sets</a>.</p>
+<ul>
+<li><a href="https://docs.blender.org/api/blender_python_api_current/bpy.ops.html">Operators - bpy.ops</a></li>
+<li><a href="https://docs.blender.org/api/blender_python_api_current/bpy.ops.object.html">bpy.ops.object</a></li>
+</ul>
+<h2>Other</h2>
+<p>The page <a href="https://docs.blender.org/manual/en/dev/advanced/scripting/index.html">Scripting and Extending Blender</a>
+contains links to video tutorials on scripting Blender.</p>
+<p>Must check out the <a href="https://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts">Blender Add-ons Catalog</a>;
+it contains scripts to add geometry and do other interesting things.</p>
+<p>Problem: Render text or a simple cube from the command line.
+Use <a href="https://docs.blender.org/manual/en/dev/render/blender_render/materials/special_effects/halo.html">Halo Rendering</a>.</p>
+<p>Problem: Create an animation that involves <a href="https://docs.blender.org/manual/en/dev/modeling/texts/index.html">Text</a>.</p>
+<p>Make note of <a href="https://docs.blender.org/manual/en/dev/troubleshooting/python.html">Python Errors</a>.</p>
+<p>see https://caretdashcaret.com/2014/09/30/how-to-select-an-object-in-blender-using-the-api/</p>
+<p><a href="https://blender.stackexchange.com/questions/6082/rendering-into-video-with-blender-in-python-frames-to-video">here</a>.</p>
+<p>Also, look at <a href="https://wiki.blender.org/index.php/Dev:Py/Scripts/Cookbook">Blender Scripts Cookbook</a>.</p>
+    </div>
+  </body>
+</htlm>
+

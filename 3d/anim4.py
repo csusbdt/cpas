@@ -8,27 +8,39 @@ helper.setup()
 scene = bpy.data.scenes['Scene']
 bpy.ops.object.delete() 
 
+camera = bpy.data.objects['Camera']
+camera.location = 4 * camera.location
+
+bpy.ops.object.lamp_add(
+    type='SUN', 
+    radius=1, 
+    location=(-3, 4, 5)
+)
+
 mat = bpy.data.materials.new('mat')
 
 class Object:
-    def __init__():
-        x = randint(-3, 3)
-        y = randint(-3, 3)
-        z = randint(-3, 3)
-        location = self.location(x, y, z)
+    def __init__(self):
+        max = 10
+        x = randint(-max, max)
+        y = randint(-max, max)
+        z = randint(-max, max)
         bpy.ops.mesh.primitive_cube_add(location=(x, y, z))
         self.object = bpy.context.object
 
-scene.frame_end = scene.render.fps * 1
+duration = 30
+scene.frame_end = scene.render.fps * duration
 
 remainingFrames = 0
 
 def resetRemainingFrames():
-    remainingFrames = math.floor(scene.render.fps * .25)
+    global remainingFrames
+    remainingFrames = math.floor(scene.render.fps * .55)
 
-#resetRemaningFrames()
+resetRemainingFrames()
 
 def frame_change_handler(scene):
+    global remainingFrames
     remainingFrames = remainingFrames - 1
     if remainingFrames <= 0:
         resetRemainingFrames()

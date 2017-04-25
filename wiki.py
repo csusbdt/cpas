@@ -26,11 +26,8 @@ template = ''
 with open('template.html', 'r') as f:
     template = f.read()
 
-def embedIntoTemplate(content):
-    result = template.replace('[[content]]', content)
-    return result
-
 def createPage(filename):
+    global template
     inpath = INDIR + filename + ".md"
     outpath = OUTDIR + filename + ".html"
     outfile = codecs.open(outpath, "w", encoding="utf-8", errors="xmlcharrefreplace")
@@ -39,7 +36,6 @@ def createPage(filename):
 
     content = md.convert(intext) 
 
-    #outtext = embedIntoTemplate(outtext)
     outtext = template.replace('[[content]]', content)
 
     outfile.write(outtext)

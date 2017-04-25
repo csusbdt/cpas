@@ -42,6 +42,7 @@
 <h2>Reference</h2>
 <ul>
 <li><a href="https://docs.blender.org/api/blender_python_api_current/">Blender API documentation</a></li>
+<li><a href="https://docs.blender.org/api/blender_python_api_current/bpy.ops.html">Operators - bpy.ops</a></li>
 <li><a href="https://docs.blender.org/manual/en/dev/">Blender Reference Manual</a></li>
 <li><a href="https://docs.blender.org/manual/en/dev/render/workflows/command_line.html">Blender Command Line</a></li>
 <li><a href="https://docs.blender.org/manual/en/dev/advanced/command_line/arguments.html">Blender Command Line Arguments</a></li>
@@ -141,7 +142,6 @@ Make sure the Tools tab is selected.
 Under Transform, click on the Translate button.
 Observe the X, Y and Z values that are displayed for the object translation.
 Experiment with changing these values.</p>
-<p><strong>TODO:</strong></p>
 <p>To become familiar with other operations you can perform in code,
 see <a href="https://docs.blender.org/api/blender_python_api_current/bpy.ops.html">Operators (bpy.ops)</a>.</p>
 <h2>Blend-files</h2>
@@ -202,11 +202,10 @@ Here is an example of how to pause a script to let the user execute Python code.
 cube = bpy.data.objects['Cube']
 cube.location.x = 3
 
-import code
+# Enter interactive mode; press Ctrl-D to terminate.
 namespace = globals().copy()
 namespace.update(locals())
-
-# Enter interactive mode; press Ctrl-D to terminate.
+import code
 code.interact(local=namespace)  
 
 bpy.data.scenes['Scene'].render.filepath = 'cube.png'
@@ -228,25 +227,6 @@ Then, I would access this version of Python through the virtual environment mech
 See <a class="wikilink" href="Working-in-a-Python3-Virtual-Environment.html">Working in a Python3 Virtual Environment</a> to set this up.</p>
 <p>However, building Blender as a Python module is not covered in the course.
 This is an optional activity.</p>
-<hr />
-<p><strong>TODO: RESTART FROM HERE</strong></p>
-<p>The page <a href="https://docs.blender.org/manual/en/dev/advanced/scripting/index.html">Scripting and Extending Blender</a>
-contains links to video tutorials on scripting Blender.</p>
-<p>Must check out the <a href="https://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts">Blender Add-ons Catalog</a>;
-it contains scripts to add geometry and do other interesting things.</p>
-<p>Problem: Render text or a simple cube from the command line.
-Use <a href="https://docs.blender.org/manual/en/dev/render/blender_render/materials/special_effects/halo.html">Halo Rendering</a>.</p>
-<p><em>Optional Assignment:</em> Create an <a href="https://docs.blender.org/manual/en/dev/advanced/app_templates.html">Application Template</a> that is used with your scene generation code.</p>
-<p>Problem: Create an animation that involves <a href="https://docs.blender.org/manual/en/dev/modeling/texts/index.html">Text</a>.</p>
-<p>Make note of <a href="https://docs.blender.org/manual/en/dev/troubleshooting/python.html">Python Errors</a>.</p>
-<p>The following are notes I took from 
-<a href="https://docs.blender.org/manual/en/dev/data_system/introduction.html">Data System &gt; Introduction</a>.</p>
-<ul>
-<li>The Blender UI includes an Outliner editor that lets you view the hierarchical structure of the blend-file.</li>
-<li>Various data such as images can be <em>packed</em> in a blend-file.</li>
-<li>Most data in a blend-file is in a <em>data-block</em> although some data is not, such as bones, sequence strips and vertex groups.</li>
-</ul>
-<p>see https://caretdashcaret.com/2014/09/30/how-to-select-an-object-in-blender-using-the-api/</p>
     </div>
   </body>
 </htlm>
