@@ -51,8 +51,9 @@ with open('template.html', 'r') as f:
 def createPage(pageTitle):
     global template
     url = 'https://raw.githubusercontent.com/wiki/csusbdt/cpas/' + pageTitle + '.md'
-    wikiText = urllib.request.urlopen(url).read()
-    wikiText = codecs.decode(wikiText, encoding="utf-8")
+    # wikiText = urllib.request.urlopen(url).read()
+    # wikiText = codecs.decode(wikiText, encoding="utf-8")
+    wikiText = urllib.request.urlopen(url).read().decode('utf-8')
     outpath = OUTDIR + pageTitle + ".html"
     outfile = codecs.open(outpath, "w", encoding="utf-8", errors="xmlcharrefreplace")
     content = md.convert(wikiText) 
