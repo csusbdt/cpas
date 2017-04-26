@@ -1,5 +1,5 @@
 # This script does two things:
-#     (1) Convert INDIR/*.md to HTML and place in OUTDIR.
+#     (1) Read wiki markdown from this project's wiki and converts to HTML.
 #     (2) Copy github-markdown.css to OUTDIR.
 
 import platform
