@@ -40,3 +40,9 @@ python setup.py install
 
 Note that the command `python` will run Python3 after activation.
 
+I installed gitpythom module with the following.
+
+~~~
+pip install gitpython
+~~~
+
