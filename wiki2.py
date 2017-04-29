@@ -14,9 +14,6 @@ if platform.python_version_tuple()[0] < '3':
     print("This script requires Python version 3.")
     exit(1)
 
-url = 'https://raw.githubusercontent.com/wiki/csusbdt/cse2/index.md'
-contents = urllib.request.urlopen(url).read().decode('utf-8')
-
 copyfile("github-markdown.css", "docs")
 
 md = markdown.Markdown([
