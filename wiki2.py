@@ -37,7 +37,7 @@ def createPage(pageTitle):
     outfile.write(html)
 
 pageTitles = [
-    "Home",
+    "index",
     "Experience-Working-with-Python",
     "Install-Python",
     "Learn-the-Python-Language",

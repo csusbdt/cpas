@@ -12,9 +12,12 @@ import markdown
 import codecs
 from pathlib import Path
 from shutil import copy2 as copyfile
+from git import Repo
 
-INDIR = "../cpas.wiki/"
+INDIR = "wiki/"
 OUTDIR = "docs/"
+
+Repo('wiki').remote('origin').pull()
 
 md = markdown.Markdown([
     "markdown.extensions.wikilinks(base_url=, end_url=.html)", 
@@ -26,19 +29,17 @@ template = ''
 with open('template.html', 'r') as f:
     template = f.read()
 
-def createPage(filename):
+def createPage(pageTitle):
     global template
-    inpath = INDIR + filename + ".md"
-    outpath = OUTDIR + filename + ".html"
-    outfile = codecs.open(outpath, "w", encoding="utf-8", errors="xmlcharrefreplace")
+    inpath = INDIR + pageTitle + ".md"
     infile = codecs.open(inpath, mode="r", encoding="utf-8")
-    intext = infile.read()
-
-    content = md.convert(intext) 
-
-    outtext = template.replace('[[content]]', content)
-
-    outfile.write(outtext)
+    wikiText = infile.read()
+    content = md.convert(wikiText) 
+    html = template.replace('[[content]]', content)
+    html = html.replace('[[path]]', pageTitle)
+    outpath = OUTDIR + pageTitle + ".html"
+    outfile = codecs.open(outpath, "w", encoding="utf-8", errors="xmlcharrefreplace")
+    outfile.write(html)
 
 print("(1) Converting " + INDIR + "*.md to HTML and placing into " + OUTDIR)
 print("(2) Copying github-markdown.css to " + OUTDIR)
@@ -48,6 +49,9 @@ for x in wikiPagesDirectory.iterdir():
     if not x.is_dir():
         createPage(x.stem)
 
-copyfile("github-markdown.css", "docs")
+copyfile("github-markdown.css", OUTDIR)
+#copyfile("styles.css", OUTDIR)
+copyfile("favicon.ico", OUTDIR)
+
 print("Done.")
 

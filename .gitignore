@@ -1,8 +1,10 @@
+/wiki/
 a.out
-env/
+/env/
 *.swp
 .DS_Store
 3d/*.png
 __pycache__
 *.mp4
+/3d/temp
 
