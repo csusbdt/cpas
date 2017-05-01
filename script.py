@@ -50,7 +50,6 @@ for x in wikiPagesDirectory.iterdir():
         createPage(x.stem)
 
 copyfile("github-markdown.css", OUTDIR)
-#copyfile("styles.css", OUTDIR)
 copyfile("favicon.ico", OUTDIR)
 
 print("Done.")
