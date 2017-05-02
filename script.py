@@ -29,15 +29,18 @@ template = ''
 with open('template.html', 'r') as f:
     template = f.read()
 
-def createPage(pageTitle):
+def createPage(pageName):
     global template
-    inpath = INDIR + pageTitle + ".md"
+    inpath = INDIR + pageName + ".md"
     infile = codecs.open(inpath, mode="r", encoding="utf-8")
     wikiText = infile.read()
     content = md.convert(wikiText) 
     html = template.replace('[[content]]', content)
-    html = html.replace('[[path]]', pageTitle)
-    outpath = OUTDIR + pageTitle + ".html"
+    title = pageName.replace('-', ' ')
+    if title == 'index':
+        title = ''
+    html = html.replace('[[title]]', title)
+    outpath = OUTDIR + pageName + ".html"
     outfile = codecs.open(outpath, "w", encoding="utf-8", errors="xmlcharrefreplace")
     outfile.write(html)
 

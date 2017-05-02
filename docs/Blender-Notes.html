@@ -21,18 +21,32 @@
         padding-bottom: .3em;
         border-bottom: 1px solid #eaecef;
         margin-bottom: 1em;
+        white-space: nowrap
+      }
+      .left-aligned {
+        text-align: left;
+        display: table-cell;
+      }
+      .right-aligned {
+        width: 100%;
+        text-align: right;
+        display: table-cell;
       }
     </style>
   </head>
   <body>
     <div class='markdown-body'>
       <div class="menu">
-        <a href="index.html">
-          <span>CSE 1010</span>
-        </a> 
-        &bull;
-        <a href="https://github.com/csusbdt/cpas/wiki/index">Wiki</a>
-        &#9702; 
+        <div class="left-aligned">
+          <a href="index.html">
+            <span>CSE 1010</span>
+          </a>
+          &bull;
+Blender Notes
+        </div>
+        <div class="right-aligned">
+          <a href="https://github.com/csusbdt/cpas/wiki/index">Wiki</a>
+        </div>
       </div>
       <div>
 
@@ -92,9 +106,7 @@
 <p>There is a concern I read about in
 <a href="https://docs.blender.org/manual/en/dev/data_system/files/relative_paths.html">Data System &gt; Relative Paths</a>
 that may force us to use Blend-files:</p>
-<blockquote>
 <p>You cannot enter relative paths into a new untitled blend-file; save it before linking to external files.</p>
-</blockquote>
 <p>My concern is that if we use relative paths in our code to refer to linked resources (images, models, etc.),
 then we need to save the Blender's state as a Blend-file.
 I'm guessing that this sets a current location internally.

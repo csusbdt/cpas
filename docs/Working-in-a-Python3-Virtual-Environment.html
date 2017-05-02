@@ -21,18 +21,32 @@
         padding-bottom: .3em;
         border-bottom: 1px solid #eaecef;
         margin-bottom: 1em;
+        white-space: nowrap
+      }
+      .left-aligned {
+        text-align: left;
+        display: table-cell;
+      }
+      .right-aligned {
+        width: 100%;
+        text-align: right;
+        display: table-cell;
       }
     </style>
   </head>
   <body>
     <div class='markdown-body'>
       <div class="menu">
-        <a href="index.html">
-          <span>CSE 1010</span>
-        </a> 
-        &bull;
-        <a href="https://github.com/csusbdt/cpas/wiki/index">Wiki</a>
-        &#9702; 
+        <div class="left-aligned">
+          <a href="index.html">
+            <span>CSE 1010</span>
+          </a>
+          &bull;
+Working in a Python3 Virtual Environment
+        </div>
+        <div class="right-aligned">
+          <a href="https://github.com/csusbdt/cpas/wiki/index">Wiki</a>
+        </div>
       </div>
       <div>
 
@@ -49,7 +63,7 @@ work in a Python3 virtual environment in order to install modules.
 The instructions given here show how to set this up in OS X and Linux.
 I'm not sure of the procedure needed under Windows.</p>
 <p>To create and work in a Python3 virtual environment,
-see <a href="https://docs.python.org/3/library/venv.html">28.3. venv — Creation of virtual environments</a>.
+see <a href="https://docs.python.org/3/library/venv.html">28.3. venv &mdash; Creation of virtual environments</a>.
 Here are my notes.</p>
 <p>Run the following in a directory where you have write permissions.</p>
 <pre><code>python3 -m venv env
