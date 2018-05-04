@@ -6,7 +6,7 @@ import math
 helper.setup()
 
 scene = bpy.data.scenes['Scene']
-bpy.ops.object.delete() 
+bpy.ops.object.delete() # delete selected object, which is the Cube.
 
 camera = bpy.data.objects['Camera']
 camera.location = 4 * camera.location
